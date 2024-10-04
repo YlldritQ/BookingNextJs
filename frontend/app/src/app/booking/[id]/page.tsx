@@ -12,14 +12,14 @@ interface Booking {
 }
 
 const BookingDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
-  const [booking, setBooking] = useState<Booking | null>(null); // Define Booking type as needed
+  const [booking, setBooking] = useState<Booking | null>(null); 
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchBooking = async () => {
       const { id } = params; // Access the id from params
-      if (!id) return; // Ensure id is defined before making a fetch request
+      if (!id) return; 
 
       try {
         const res = await fetch(`http://host.docker.internal:5000/api/bookings/${id}`, {
@@ -36,7 +36,7 @@ const BookingDetails: React.FC<{ params: { id: string } }> = ({ params }) => {
     };
 
     fetchBooking();
-  }, [params]); // Run the effect whenever params change
+  }, [params]); 
 
   if (error) {
     return <div className="p-4 text-red-600">{error}</div>;

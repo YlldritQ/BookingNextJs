@@ -16,7 +16,7 @@ interface Booking {
   service: string;
 }
 
-// Home component for CSR
+
 const Home: React.FC = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [error, setError] = useState<string | null>(null);

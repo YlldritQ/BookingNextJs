@@ -1,8 +1,8 @@
-"use client"; // This makes the component client-side in Next.js 14
+"use client"; 
 
 import { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useRouter } from 'next/navigation'; 
 import toast from "react-hot-toast";
 
 const BookingForm = () => {
@@ -14,16 +14,15 @@ const BookingForm = () => {
     date: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false); // For loading state
+  const [isSubmitting, setIsSubmitting] = useState(false); 
   const [responseMessage, setResponseMessage] = useState('');
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
 
   // Limit the date selection to today and future dates
-  const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0]; 
 
-  // Working hours
-  const workingHoursStart = '09:00'; // 9 AM
-  const workingHoursEnd = '20:00'; // 8 PM
+  const workingHoursStart = '09:00'; 
+  const workingHoursEnd = '20:00'; 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,14 +33,14 @@ const BookingForm = () => {
   };
 
   const isWithinWorkingHours = (time) => {
-    const [hours] = time.split(':').map(Number); // Get the hours from the time string
+    const [hours] = time.split(':').map(Number); 
     return hours >= 9 && hours < 20; // Check if time is between 9 AM and 8 PM
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true); // Set loading state to true
-    setResponseMessage(''); // Clear any previous messages
+    setIsSubmitting(true); 
+    setResponseMessage(''); 
 
     // Check if start time is after end time
     if (formData.start_time >= formData.end_time) {
@@ -88,12 +87,12 @@ const BookingForm = () => {
         setResponseMessage('Failed to insert booking. Please try again.');
       }
     } finally {
-      setIsSubmitting(false); // Stop loading state
+      setIsSubmitting(false); 
     }
   };
 
   const handleCancel = () => {
-    router.push('/'); // Redirect to the main page when cancel is clicked
+    router.push('/'); 
   };
   return (
     <div className="max-w-lg mx-auto p-6 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-white shadow-md rounded-md">

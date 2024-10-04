@@ -14,23 +14,19 @@ interface BookingListProps {
 }
 
 function convert24HourTimeTo12HourFormat(timeString) {
-  // Split the string into hours and minutes
+
   if (timeString.includes('AM') || timeString.includes('PM')) {
-    return timeString; // Already in 12-hour format
+    return timeString; 
   }
 
   let [hours, minutes] = timeString.split(':');
 
-  // Convert the string hours into a number
   hours = parseInt(hours, 10);
 
-  // Determine AM or PM suffix
   const ampm = hours >= 12 ? 'PM' : 'AM';
 
-  // Convert 24-hour time to 12-hour format
-  hours = hours % 12 || 12; // Convert '0' (midnight) and '12' noon correctly
+  hours = hours % 12 || 12; 
 
-  // Return the formatted time string with AM/PM
   return `${hours}:${minutes} ${ampm}`;
 }
 

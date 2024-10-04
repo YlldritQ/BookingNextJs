@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mysql = require('mysql2/promise'); // Using promise-based API
+const mysql = require('mysql2/promise'); 
 
 const app = express();
 const port = 5000;
@@ -17,13 +17,12 @@ const pool = mysql.createPool({
 });
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Allow requests from your frontend
-  credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  origin: 'http://localhost:3000', 
+  credentials: true 
 }));
 
 app.use(bodyParser.json());
 
-// API endpoint to fetch bookings
 app.get('/api/bookings', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM bookings');
@@ -51,7 +50,6 @@ app.get('/api/bookings/:id', async (req, res) => {
 });
 
 
-// API endpoint to insert a booking
 app.post('/api/bookings', async (req, res) => {
   const { service, doctor_name, start_time, end_time, date } = req.body;
 
@@ -61,11 +59,9 @@ app.post('/api/bookings', async (req, res) => {
     return res.status(400).send('Cannot book an appointment in the past.');
   }
 
-  // Check if start time is after end time
   if (start_time >= end_time) {
     return res.status(400).send('Start time must be before end time.');
   }
-  // Step 1: Check for existing bookings that conflict with the new booking
   const checkConflictQuery = `
     SELECT * FROM bookings 
     WHERE doctor_name = ? 
@@ -79,12 +75,10 @@ app.post('/api/bookings', async (req, res) => {
   try {
     const [conflictingBookings] = await pool.query(checkConflictQuery, [doctor_name, date, end_time, start_time, start_time, end_time]);
 
-    // Step 2: If conflicts exist, send a conflict response
     if (conflictingBookings.length > 0) {
       return res.status(409).json({ message: 'This time is not available. Please choose another time.' });
     }
 
-    // Step 3: If no conflicts, proceed to insert the booking
     const insertQuery = 'INSERT INTO bookings (service, doctor_name, start_time, end_time, date) VALUES (?, ?, ?, ?, ?)';
     await pool.query(insertQuery, [service, doctor_name, start_time, end_time, date]);
 
